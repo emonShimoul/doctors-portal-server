@@ -23,7 +23,9 @@ async function run() {
 
     app.get('/appointments', async (req, res) => {
       const email = req.query.email;
-      const query = { email: email };
+      const date = new Date(req.query.date).toLocaleDateString();
+      // console.log(date);
+      const query = { email: email, date: date };
       const cursor = appointmentsCollection.find(query);
       const appointments = await cursor.toArray();
       res.json(appointments);
