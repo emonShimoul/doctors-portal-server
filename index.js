@@ -22,6 +22,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function verifyToken(req, res, next) {
   if (req.headers?.authorization?.startsWith('Bearer ')) {
     const token = req.headers.authorization.split(' ')[1];
+
+    try {
+      const decodedUser = await admin.auth().verifyIdToken(token);
+      req.decodedEmail = decodedUser.email;
+    }
+    catch {
+
+    }
   }
   next();
 }
@@ -46,7 +54,7 @@ async function run() {
       res.json(appointments);
     })
 
-    app.post('/appointments', async (req, res) => {
+    app.post('/appointments', verifyToken, async (req, res) => {
       const appointment = req.body;
       const result = await appointmentsCollection.insertOne(appointment);
       // console.log(result);
@@ -82,11 +90,19 @@ async function run() {
 
     app.put('/users/admin', verifyToken, async (req, res) => {
       const user = req.body;
-      console.log('put', req.headers.authorization);
-      const filter = { email: user.email };
-      const updateDoc = { $set: { role: 'admin' } }
-      const result = await usersCollection.updateOne(filter, updateDoc);
-      res.json(result);
+      const requester = req.decodedEmail;
+      if (requester) {
+        requesterAccount = await usersCollection.findOne({ email: requester });
+        if (requesterAccount.role === 'admin') {
+          const filter = { email: user.email };
+          const updateDoc = { $set: { role: 'admin' } }
+          const result = await usersCollection.updateOne(filter, updateDoc);
+          res.json(result);
+        }
+      }
+      else {
+        res.status(403).json({ message: 'You do not have access to make admin!!' });
+      }
     })
   }
   finally {
