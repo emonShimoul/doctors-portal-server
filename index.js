@@ -11,11 +11,13 @@ const port = process.env.PORT || 5000;
 // const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 // console.log(serviceAccount);
 // const serviceAccount = 'doctors-portal-firebase-adminsdk.json';
+
+const { privateKey } = JSON.parse(process.env.private_key);
 const serviceAccount = {
   type: process.env.type,
   project_id: process.env.project_id,
   private_key_id: process.env.private_key_id,
-  private_key: process.env.private_key,
+  privateKey,
   client_email: process.env.client_email,
   client_id: process.env.client_id,
   auth_uri: process.env.auth_uri,
@@ -23,7 +25,6 @@ const serviceAccount = {
   auth_provider_x509_cert_url: process.env.auth_provider_x509_cert_url,
   client_x509_cert_url: process.env.client_x509_cert_url
 }
-console.log(serviceAccount);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
