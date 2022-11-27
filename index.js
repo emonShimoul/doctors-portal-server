@@ -7,11 +7,6 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const port = process.env.PORT || 5000;
 
-// doctors-portal-firebase-adminsdk.json
-// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-// console.log(serviceAccount);
-// const serviceAccount = 'doctors-portal-firebase-adminsdk.json';
-
 const { privateKey } = JSON.parse(process.env.private_key);
 const serviceAccount = {
   type: process.env.type,
