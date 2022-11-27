@@ -54,6 +54,7 @@ async function run() {
     const appointmentsCollection = database.collection('appointments');
     const usersCollection = database.collection('users');
 
+    // GET API for appointments
     app.get('/appointments', async (req, res) => {
       const email = req.query.email;
       const date = req.query.date;
@@ -64,12 +65,14 @@ async function run() {
       res.json(appointments);
     })
 
+    // POST API for appointments
     app.post('/appointments', verifyToken, async (req, res) => {
       const appointment = req.body;
       const result = await appointmentsCollection.insertOne(appointment);
       res.json(result);
     });
 
+    // GET API for specific user
     app.get('/users/:email', async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
@@ -81,6 +84,7 @@ async function run() {
       res.json({ admin: isAdmin });
     })
 
+    // POST API for users
     app.post('/users', async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
@@ -88,6 +92,7 @@ async function run() {
       res.json(result);
     });
 
+    // PUT API for users
     app.put('/users', async (req, res) => {
       const user = req.body;
       const filter = { email: user.email };
