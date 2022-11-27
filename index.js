@@ -46,12 +46,10 @@ async function verifyToken(req, res, next) {
   next();
 }
 
-// console.log(uri);
 
 async function run() {
   try {
     await client.connect();
-    // console.log('database connected successfully');
     const database = client.db('doctors_portal');
     const appointmentsCollection = database.collection('appointments');
     const usersCollection = database.collection('users');
@@ -69,7 +67,6 @@ async function run() {
     app.post('/appointments', verifyToken, async (req, res) => {
       const appointment = req.body;
       const result = await appointmentsCollection.insertOne(appointment);
-      // console.log(result);
       res.json(result);
     });
 
