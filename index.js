@@ -79,6 +79,7 @@ async function run() {
     app.put('/appointments/:id', async (req, res) => {
       const id = req.params.id;
       const payment = req.body;
+      console.log(payment);
       const filter = { _id: ObjectId(id) };
       const updateDoc = {
         $set: {
