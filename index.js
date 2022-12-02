@@ -5,6 +5,7 @@ const admin = require("firebase-admin");
 require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const port = process.env.PORT || 5000;
 
@@ -119,6 +120,19 @@ async function run() {
       else {
         res.status(403).json({ message: 'You do not have access to make admin!!' });
       }
+    })
+
+    app.post('/create-payment-intent', async (req, res) => {
+      const paymentInfo = req.body;
+      const amount = paymentInfo.price * 100;
+      const paymentIntent = await stripe.paymentIntents.create({
+        currency: "usd",
+        amount: amount,
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+      res.json({ clientSecret: paymentIntent.client_secret })
     })
   }
   finally {
