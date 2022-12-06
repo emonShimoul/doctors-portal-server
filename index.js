@@ -76,6 +76,7 @@ async function run() {
       res.json(result);
     });
 
+    // UPDATE API for appointments
     app.put('/appointments/:id', async (req, res) => {
       const id = req.params.id;
       const payment = req.body;
