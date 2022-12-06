@@ -137,6 +137,7 @@ async function run() {
       }
     })
 
+    // for STRIPE payment gateway
     app.post('/create-payment-intent', async (req, res) => {
       const paymentInfo = req.body;
       const amount = paymentInfo.price * 100;
