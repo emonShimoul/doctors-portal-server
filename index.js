@@ -94,6 +94,7 @@ async function run() {
       res.json(result);
     })
 
+    // POST API for doctors
     app.post('/doctors', async (req, res) => {
       console.log('body', req.body);
       console.log('files', req.files);
