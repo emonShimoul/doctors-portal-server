@@ -96,9 +96,22 @@ async function run() {
 
     // POST API for doctors
     app.post('/doctors', async (req, res) => {
-      console.log('body', req.body);
+      // console.log('body', req.body);
+      const name = req.body.name;
+      const email = req.body.email;
+      const pic = req.files.image;
+      const picData = pic.data;
+      const encodedPic = picData.toString('base64');
+      const imageBuffer = Buffer.from(encodedPic, 'base64');
+      const doctor = {
+        name,
+        email,
+        image: imageBuffer
+      }
+
+      const result = await doctorsCollection.insertOne(doctor);
       console.log('files', req.files);
-      res.json({ success: true })
+      res.json(result);
     })
 
     // GET API for specific user
