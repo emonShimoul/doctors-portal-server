@@ -110,7 +110,7 @@ async function run() {
       }
 
       const result = await doctorsCollection.insertOne(doctor);
-      console.log('files', req.files);
+      // console.log('files', req.files);
       res.json(result);
     })
 
