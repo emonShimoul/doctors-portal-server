@@ -114,6 +114,12 @@ async function run() {
       res.json(result);
     })
 
+    app.get('/doctors', async (req, res) => {
+      const cursor = doctorsCollection.find({});
+      const doctors = await cursor.toArray();
+      res.json(doctors);
+    })
+
     // GET API for specific user
     app.get('/users/:email', async (req, res) => {
       const email = req.params.email;
