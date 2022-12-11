@@ -96,7 +96,6 @@ async function run() {
 
     // POST API for doctors
     app.post('/doctors', async (req, res) => {
-      // console.log('body', req.body);
       const name = req.body.name;
       const email = req.body.email;
       const pic = req.files.image;
